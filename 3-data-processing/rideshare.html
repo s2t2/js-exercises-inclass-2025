@@ -84,6 +84,11 @@
             ]
         }
 
+
+        function formatUSD(price) {
+            return `$${price.toFixed(2)}`
+        }
+
         console.log("---------------------")
         console.log("PART 1...")
 
@@ -125,6 +130,12 @@
             return stop.fare
         })
         console.log("FARES:", fares)
+
+        fares.forEach(function(fare){
+            console.log(formatUSD(fare))
+        })
+
+
 
         console.log("---------------------")
         console.log("PART 2...")
