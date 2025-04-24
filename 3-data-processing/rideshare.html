@@ -87,15 +87,47 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        console.log("A)")
+
+        //console.log(trip.driver)
+
+        // chained accessors:
+        console.log(trip.driver.first_name)
+
+        // alternatively, take it step by step:
+        var d = trip.driver
+        console.log(d.first_name)
+
+        console.log("C)")
+        console.log("NUMBER OF STOPS:", trip.stops.length)
+
+        console.log("D)")
+        //console.log(trip.stops[0])
+        // chained accessors:
+        console.log("FIRST DESTINATION:", trip.stops[0].destination)
+        // one step at a time:
+        var stops = trip.stops
+        var firstStop = stops[0]
+        console.log("FIRST DESTINATION:", firstStop.destination)
+
+        console.log("F)")
+
+        trip.stops.forEach(function(stop){
+            //console.log("--------")
+            //console.log(stop)
+            console.log(stop.passenger)
+        })
 
 
+        console.log("G)")
 
+        var fares = trip.stops.map(function(stop){
+            return stop.fare
+        })
+        console.log("FARES:", fares)
 
         console.log("---------------------")
         console.log("PART 2...")
-
-
-
 
 
     </script>
