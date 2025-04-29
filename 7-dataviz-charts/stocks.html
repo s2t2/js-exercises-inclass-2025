@@ -87,6 +87,7 @@
             <option value="AAPL">Apple (AAPL)</option>
             <option value="NFLX">Netflix (NFLX)</option>
             <option value="SPOT">Spotify (SPOT)</option>
+            <option value="NVDA">NVIDIA (NVDA)</option>
         </select>
     </div>
 
@@ -120,7 +121,7 @@
 
         // AVOID HARD-CODING THE CREDENTIALS
         // USE SESSION STORAGE TO MINIMIZE THE NUMBER OF TIMES WE HAVE TO PROVIDE THE CREDENTIAL
-        // sessionStorage.clear()
+        //sessionStorage.clear()
 
         // check session storage for the API Key:
         var apiKey = sessionStorage.getItem("ALPHAVANTAGE_API_KEY")
@@ -133,7 +134,7 @@
 
 
         // SELECTORS
-        // TODO
+        var stockSelector = document.getElementById("stock-selector")
 
 
 
@@ -142,7 +143,7 @@
             console.log("--------------------")
 
             // capturing form inputs:
-            var symbol = "NFLX" // TODO: get from drop-down instead
+            var symbol = stockSelector.value //"NFLX" // TODO: get from drop-down instead
             console.log("SYMBOL:", symbol)
 
             var requestUrl = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&datatype=csv&symbol=" + symbol + "&apikey=" + apiKey
@@ -153,14 +154,35 @@
                 console.log("---------------------")
                 console.log("PART 1...")
 
-
+                console.log("NUMBER OF DAYS:", data.length)
 
 
 
                 console.log("---------------------")
                 console.log("PART 2...")
 
+                var dates = []
+                var prices = []
 
+                data.forEach(function(row) {
+                    dates.push(row.timestamp)
+                    prices.push(row.adjusted_close)
+                })
+
+                //var dates = ["2025-01-01", "2025-01-02", "2025-01-03"]
+                //var prices = [100, 125, 175]
+
+                // DATAVIZ
+                // https://plotly.com/javascript/line-charts/
+                var chartData = [
+                    {x: dates, y: prices, mode: "lines+markers"}
+                ]
+                var chartLayout = {
+                    title: {text: `Stock Prices (${symbol})`},
+                    xaxis: {title: {text: "Date"}},
+                    yaxis: {title: {text: "Adjusted Closing Price ($)"}},
+                }
+                Plotly.newPlot("dataviz-container", chartData, chartLayout, {responsive: true})
 
 
 
@@ -171,10 +193,10 @@
         }
 
         // trigger an initial chart update when the page loads:
-        //TODO
+        updateDashboard()
 
         // trigger a subsequent chart update whenever the dropdown option is selected:
-        //TODO
+        stockSelector.addEventListener("change", updateDashboard, false)
 
     </script>
 </body>
