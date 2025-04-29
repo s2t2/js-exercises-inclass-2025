@@ -82,16 +82,34 @@
 
         var requestUrl = "https://raw.githubusercontent.com/prof-rossetti/internet-technologies/refs/heads/main/data/weather-data.json"
 
+        //var dataSomeday
+
         fetch(requestUrl).then(response => response.json())
             .then(function(data){
                 console.log("DATA", data)
-
+                // make this data available in the global scope
+                // this will only be helpful for us manually inspecting the data in the console later
+                //dataSomeday = data
 
                 console.log("---------------------")
                 console.log("PART 1...")
 
+                console.log("DATE:", data.properties.generatedAt)
 
+                console.log("PERIODS:", data.properties.periods.length)
 
+                var daytimePeriods = data.properties.periods.filter(function(period){
+                    return period.isDaytime == true
+                })
+                console.log("DAYTIME PERIODS:", daytimePeriods.length)
+
+                daytimePeriods.forEach(function(p) {
+                    console.log("----")
+                    //console.log(p)
+                    //console.log(p.name, p.temperature, p.temperatureUnit)
+                    console.log(p.name, p.temperature + degreeSymbol + p.temperatureUnit)
+                    console.log(p.shortForecast)
+                })
 
                 console.log("---------------------")
                 console.log("PART 2...")
@@ -102,6 +120,8 @@
             })
             .catch(err => console.log(err))
 
+        //console.log("DATA:", data)
+        //console.log("SOMEDAY?", dataSomeday)
     </script>
 </body>
 </html>
